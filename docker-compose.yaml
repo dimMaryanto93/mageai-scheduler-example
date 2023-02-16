@@ -8,17 +8,14 @@ services:
     command: ['/app/run_app.sh', 'mage', 'start', 'satu_data']
     ports:
       - "6789:6789"
+    depends_on:
+      - postgres
     environment:
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
-      - POSTGRES_USER
-      - MAGE_DATABASE_CONNECTION_URL=postgresql+psycopg2://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)
+      - MAGE_DATABASE_CONNECTION_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     volumes:
       - mage_data:/home/src
   postgres:
     image: repository.dimas-maryanto.com:8086/postgres:15.1
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD
       - POSTGRES_DB
